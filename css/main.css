@@ -95,10 +95,54 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+body {
+	font-family: Roboto, "Arial Narrow", sans-serif;
+	background-color: #708042;
+}
 
+.main-wrapper {
+	max-width: 60rem;
+    padding: 3REM 1rem 10REM 3REM;
+    background-color: white;
+    text-align: center;
+    margin: 4REM auto;
+    box-sizing: BORDER-BOX;
+    BORDER: 1px solid #ccc;
+    box-shadow: 0 0 6rem rgba(0,0,0,.2);
+}
 
+h1 {
+	margin: 0;
+	font-size: 3rem;
+	color: #6c8b04;
+}
 
+h1 span {
+	color: black;
+	font-weight: 300;
+	color: #d5bf2a;
+}
 
+.pure-form input[type=search] {
+    display: block;
+    margin: 1rem 0;
+    width: 100%;
+    padding: .95rem 2rem;
+    font-size: 2rem;
+    font-weight: 300;
+    box-sizing: border-box;
+    margin: 0;
+    border-radius: 0 !important;
+    border-right: 0;
+}
+
+.button-xlarge {
+    font-size: 125%;
+    display: block;
+    width: 100%;
+    height: 4.4rem;
+    line-height: 1;
+}
 
 
 
