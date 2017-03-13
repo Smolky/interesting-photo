@@ -1,8 +1,12 @@
 $(document).ready (function (e) {
-
+	
 	// Configuration
-	var flicker_api_endpoint = 'https://api.flickr.com/services/rest/';
-	var flicker_api_public_key = '9dcf1f2f5c566d293d230fe0a9860ec6';
+	var api_endpoint = 'http://192.168.194.128/interesting-photo/api/';
+	
+	
+	// DOM Elements
+	var img = $('.sample-img-placeholder-img');
+	var default_img = $('.sample-img-placeholder-img').attr ('src');
 	
 	
 	// Make api calls
@@ -12,63 +16,21 @@ $(document).ready (function (e) {
 		e.preventDefault ();
 		
 		
+		// Reset state
+		img.attr ('src', default_img);
+		
+		
 		// Retrieve query
 		var keyword = $('[name="query"]').val ().toLowerCase ();
 		var found = false; 
 		
+		
+		// Get interesting photos
 		$.ajax ({
-			dataType: "jsonp",
-			jsonp: "jsoncallback",
-			url: flicker_api_endpoint,
-			data: {
-				method: 'flickr.interestingness.getList',
-				api_key: flicker_api_public_key,
-				format: 'json'
-			},
+			dataType: "json",
+			url: api_endpoint + keyword,
 			success: function (response) {
-				
-				// For each photo...
-				$.each (response.photos.photo, function (index, photo) {
-				
-					// Skip searching
-					if (found) {
-						return;
-					}
-				
-					
-					// Retrieve photo id
-					var photo_id = photo.id;
-					
-					
-					// Get tags
-					$.ajax ({
-						dataType: "jsonp",
-						jsonp: "jsoncallback",
-						url: flicker_api_endpoint,
-						data: {
-							method: 'flickr.tags.getListPhoto',
-							api_key: flicker_api_public_key,
-							photo_id: photo_id,
-							format: 'json'
-						},
-						success: function (tags_response) {
-							
-							$.each (tags_response.photo.tags.tag, function (index, tag) {
-							
-								console.log (tag.raw.toLowerCase ());
-							
-								if (tag.raw.toLowerCase () == keyword) {
-									found = true;
-									alert ('match!');
-									return false;
-									
-								}
-							});
-							
-						}
-					});
-				});
-				
+				img.attr ('src', response.url);
 			}
 		});
 		
