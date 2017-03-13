@@ -15,8 +15,10 @@ $(document).ready (function (e) {
 		// Retrieve query
 		var keyword = $('[name="query"]').val (); 
 		
+		$.getJSON('http://api.flickr.com/services/rest/?&amp;method=flickr.photosets.getPhotos&amp;api_key=' + apiKey + '&amp;photoset_id=72157619415192530&amp;format=json&amp;jsoncallback=?',
 		
 		$.ajax ({
+			dataType: "jsonp",
 			url: flicker_api_endpoint + 'flickr.interestingness.getList',
 			data: {
 				api_key: flicker_api_public_key
