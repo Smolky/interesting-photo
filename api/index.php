@@ -34,7 +34,7 @@ function getFlickerInfo ($request_data) {
 	// set url 
 	curl_setopt ($ch, CURLOPT_URL, FLICKER_API_ENDPOINT . '?' . http_build_query ($request_data)); 
 	
-	//return the transfer as a string 
+	// return the transfer as a string 
 	curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1); 
 	curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt ($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
@@ -65,12 +65,17 @@ $app->get ('/{tag}', function ($tag) use ($app) {
 	$request_data = array (
 		'method' => 'flickr.interestingness.getList',
 		'api_key' => FLICKER_API_KEY,
+		'per_page' => 500,
 		'format' => 'json',
 		'nojsoncallback' => '?'
 	);
 
 	// Retrieve photos
 	$interesting_photos = getFlickerInfo ($request_data);
+	
+	
+	// Updating the request
+	unset ($request_data['per_page']);
 	
 	
 	// Retrieve tags
