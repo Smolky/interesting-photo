@@ -27,7 +27,8 @@ $(document).ready (function (e) {
 		
 		// Get interesting photos
 		$.ajax ({
-			dataType: "json",
+			dataType: "jsonp",
+                        jsonpCallback: "localJsonpCallback",
 			url: api_endpoint + keyword,
 			success: function (response) {
 				img.attr ('src', response.url);
