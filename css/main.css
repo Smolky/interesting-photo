@@ -144,6 +144,14 @@ h1 span {
     line-height: 1;
 }
 
+figure {
+    margin: 0;
+}
+
+figure img {
+    display: block;
+    max-width: 100%;
+}
 
 
 

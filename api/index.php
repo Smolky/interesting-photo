@@ -63,61 +63,43 @@ $app->get ('/{tag}', function ($tag) use ($app) {
 
 	// Perform request
 	$request_data = array (
-		'method' => 'flickr.interestingness.getList',
+		'method' => 'flickr.photos.search',
 		'api_key' => FLICKER_API_KEY,
-		'per_page' => 500,
+                'tags' => $app->escape ($tag),
+                'sort' => 'interestingness-desc',
+                'page' => 1,
+		'per_page' => 1,
 		'format' => 'json',
 		'nojsoncallback' => '?'
 	);
 
 	// Retrieve photos
 	$interesting_photos = getFlickerInfo ($request_data);
-	
-	
-	// Updating the request
-	unset ($request_data['per_page']);
-	
-	
+
+
 	// Retrieve tags
 	foreach ($interesting_photos['photos']['photo'] as $photo) {
-		
-		// Perform request
-		$request_data['method'] = 'flickr.tags.getListPhoto';
-		$request_data['photo_id'] = $photo['id'];
-		
-		
-		// Retrieve photos
-		$tags_response = getFlickerInfo ($request_data);
-		
-		
-		// Check tags
-		foreach ($tags_response['photo']['tags']['tag'] as $checking_tag) {
-			
-			// Found!
-			if (strcasecmp ($checking_tag['raw'], $app->escape ($tag)) == 0) {
-				$request_data['method'] = 'flickr.photos.getSizes';
-				$sizes_response = getFlickerInfo ($request_data);
-				
-				
-				$image = null;
-				foreach ($sizes_response['sizes']['size'] as $index => $size) {
-					if ($size['label'] == 'Original') {
-						$image = $size;
-					}
-				}
-				
-				if ( ! $image) {
-					$image = end ($sizes_response['sizes']['size']);
-				}
-				
-				
-				// Move the image
-				echo json_encode (array ('url' => $image['source']));
-				die ();
-				
+
+		$request_data['method'] = 'flickr.photos.getSizes';
+                $request_data['photo_id'] = $photo['id'];
+		$sizes_response = getFlickerInfo ($request_data);
+
+		$image = null;
+		foreach ($sizes_response['sizes']['size'] as $index => $size) {
+			if ($size['label'] == 'Original') {
+				$image = $size;
 			}
-			
 		}
+		
+		if ( ! $image) {
+			$image = end ($sizes_response['sizes']['size']);
+		}
+		
+		
+		// Move the image
+		echo json_encode (array ('url' => $image['source']));
+		die ();
+
 	}
 	
 	

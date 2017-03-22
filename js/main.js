@@ -1,7 +1,7 @@
 $(document).ready (function (e) {
 	
 	// Configuration
-	var api_endpoint = 'http://192.168.194.128/interesting-photo/api/';
+	var api_endpoint = 'http://46.101.81.209/interesting-photo/api/';
 	
 	
 	// DOM Elements
